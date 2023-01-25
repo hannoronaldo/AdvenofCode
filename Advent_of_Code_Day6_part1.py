@@ -1,4 +1,4 @@
-# code for part 2
+# code for part 1
 # import re
 answer = ''
 
@@ -22,5 +22,3 @@ with open("signaling.txt", 'r') as fh:
 
 
 print(answer)
-
-
