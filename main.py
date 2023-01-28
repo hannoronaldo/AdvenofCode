@@ -1,23 +1,33 @@
 # code for part 1
+import pprint
 file_system = {}
-with open ("day7_small.in", 'r') as fh:
+with open("day7_small.in", 'r') as fh:
     action = fh.read().split('\n')
-    directory = ''
+    actual_directory = ''
+
+    parent_directory = ''
+
     set_ls = 0
+    path = ''
     for step in action:
-        command = step.split(' ')
-        if len(command) == 3:  # if so -> change dir
-            directory = command[2]
-            if directory in file_system:
-                pass
+
+        if step[0] == '$' and step[2:4] == 'cd':  # if so -> change dir
+            actual_directory = step[5:]
+            if actual_directory == '..':  # go back to parent directory
+                path = parent_directory
             else:
-                file_system[directory]
-            break
-        elif command[1] == 'ls': # if so -> list di
-                set_ls = 1
+                parent_directory = actual_directory
+                path = actual_directory
+                file_system.update({path: 0})
+
+
+            set_ls = 0
+        elif step[0] == '$' and step[2:4] == 'ls':
+            set_ls = 1
         else:
             if set_ls:
-                file_system[directory] = (command[0], command[1]) # write all items to dict
+                item = step.split(' ')
+                file_system[path].append(item)  # write all items to dict
 
-    print(action)
-https://www.youtube.com/watch?v=FXQWIWHaFBE
+    pprint.pprint(file_system.items())
+
